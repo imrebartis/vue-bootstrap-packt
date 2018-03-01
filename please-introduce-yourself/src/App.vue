@@ -4,12 +4,12 @@
     <div class="container">
       <h1>Hello! Nice to meet you!</h1>
       <hr />
-      <form>
+      <form @submit="addMessage">
         <div class="form-group">
-          <input class="form-control" maxlength="40" autofocus placeholder="Please introduce yourself :)" />
+          <input class="form-control" v-model="newMessage.title" maxlength="40" autofocus placeholder='Please introduce yourself :)' />
         </div>
         <div class="form-group">
-          <textarea class="form-control" placeholder="Leave your message!"  rows="3">
+          <textarea class="form-control" v-model="newMessage.text" placeholder='Leave your message!'  rows="3">
           </textarea>
         </div>
         <button class="btn btn-primary" type="submit">Send</button>
@@ -30,24 +30,46 @@
 <script>
 import Firebase from 'firebase'
 
-  let config = {
-    apiKey: "AIzaSyBIlL5hA3DykrxEVcAHeG2theMu2PaLKUg",
-    authDomain: "pleaseintroduceyourself-c6a0f.firebaseapp.com",
-    databaseURL: "https://pleaseintroduceyourself-c6a0f.firebaseio.com",
-    projectId: "pleaseintroduceyourself-c6a0f",
-    storageBucket: "pleaseintroduceyourself-c6a0f.appspot.com",
-    messagingSenderId: "96581135433"
-  };
+let config = {
+  apiKey: 'AIzaSyBIlL5hA3DykrxEVcAHeG2theMu2PaLKUg',
+  authDomain: 'pleaseintroduceyourself-c6a0f.firebaseapp.com',
+  databaseURL: 'https://pleaseintroduceyourself-c6a0f.firebaseio.com',
+  projectId: 'pleaseintroduceyourself-c6a0f',
+  storageBucket: 'pleaseintroduceyourself-c6a0f.appspot.com',
+  messagingSenderId: '96581135433'
+}
 
-  let app = Firebase.initializeApp(config)
-  let db = app.database()
-  let messagesRef = db.ref('messages')
-  export default {
-    name: 'app',
-    firebase: {
-      messages: messagesRef
+let app = Firebase.initializeApp(config)
+let db = app.database()
+let messagesRef = db.ref('messages')
+export default {
+  data () {
+    return {
+      newMessage: {
+        title: '',
+        text: '',
+        timestamp: null
+      }
     }
+  },
+  methods: {
+    addMessage (e) {
+      e.preventDefault()
+      if (this.newMessage.title === '') {
+        return
+      }
+      this.newMessage.timestamp = Date.now()
+      messagesRef.push(this.newMessage)
+      this.newMessage.text = ''
+      this.newMessage.title = ''
+      this.newMessage.timestamp = null
+    }
+  },
+  name: 'app',
+  firebase: {
+    messages: messagesRef
   }
+}
 </script>
 
 <style>
