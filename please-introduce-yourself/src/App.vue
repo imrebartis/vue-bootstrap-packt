@@ -15,12 +15,12 @@
         <button class="btn btn-primary" type="submit">Send</button>
       </form>
       <div class="card-group">
-        <div class="card" v-for="message in messages">
+        <div class="card" v-for="message in reverse(messages)">
           <div class="card-block">
             <h5 class="card-title">{{ message.title }}</h5>
             <p class="card-text">{{ message.text }}</p>
-            <p class="card-text"><small class="text-muted">Added on {{ message.timestamp }}</small></p>
-        </div>
+            <p class="card-text"><small class="text-muted">Added on {{ dateToString(message.timestamp) }}</small></p>
+          </div>
       </div>
      </div>
    </div>
@@ -29,6 +29,8 @@
 
 <script>
 import Firebase from 'firebase'
+import { dateToString } from './utils/utils'
+import { reverse } from './utils/utils'
 
 let config = {
   apiKey: 'AIzaSyBIlL5hA3DykrxEVcAHeG2theMu2PaLKUg',
@@ -53,6 +55,8 @@ export default {
     }
   },
   methods: {
+    dateToString: dateToString,
+    reverse: reverse,
     addMessage (e) {
       e.preventDefault()
       if (this.newMessage.title === '') {
