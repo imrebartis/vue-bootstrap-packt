@@ -14,23 +14,24 @@
         </div>
         <button class="btn btn-primary" type="submit">Send</button>
       </form>
-      <div class="card-group">
-        <div class="card" v-for="message in reverse(messages)">
+      <div class="card-columns">
+          <card class="card-outline-success" v-bind:message="firstMessage"></card>
+      </div>
+      <div class="card" v-for="message in reverse(messages)">
           <div class="card-block">
             <h5 class="card-title">{{ message.title }}</h5>
             <p class="card-text">{{ message.text }}</p>
             <p class="card-text"><small class="text-muted">Added on {{ dateToString(message.timestamp) }}</small></p>
-          </div>
+        </div>
       </div>
      </div>
    </div>
-  </div>
 </template>
 
 <script>
 import Firebase from 'firebase'
-import { dateToString } from './utils/utils'
-import { reverse } from './utils/utils'
+import { dateToString, reverse } from './utils/utils'
+import Card from './components/Card'
 
 let config = {
   apiKey: 'AIzaSyBIlL5hA3DykrxEVcAHeG2theMu2PaLKUg',
@@ -47,6 +48,11 @@ let messagesRef = db.ref('messages')
 export default {
   data () {
     return {
+      firstMessage: {
+        title: 'Hello!',
+        text: 'This is our fixed card.',
+        timestamp: Date.now()
+      },
       newMessage: {
         title: '',
         text: '',
@@ -68,6 +74,9 @@ export default {
       this.newMessage.title = ''
       this.newMessage.timestamp = null
     }
+  },
+  components: {
+    Card
   },
   name: 'app',
   firebase: {
