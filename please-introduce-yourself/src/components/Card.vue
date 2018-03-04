@@ -1,5 +1,5 @@
 <template>
-  <div class="card">
+  <div class="card" v-bind:class="{ 'card-outline-success' : message.isFirst  }">
     <div  class="card-block">
       <h5 class="card-title">{{ message.title }}</h5>
       <p class="card-text">{{ message.text }}</p>
@@ -18,3 +18,10 @@
     }
   }
 </script>
+
+<style scoped lang="sass">
+  .card-block
+    h5, p
+    overflow: hidden
+    text-overflow: ellipsis
+</style>

@@ -6,31 +6,25 @@
       <hr />
       <form @submit="addMessage">
         <div class="form-group">
-          <input class="form-control" v-model="newMessage.title" maxlength="40" autofocus placeholder='Please introduce yourself :)' />
+          <input maxlength="40" autofocus class="form-control" v-model="newMessage.title" placeholder="Please introduce yourself :)" />
         </div>
         <div class="form-group">
-          <textarea class="form-control" v-model="newMessage.text" placeholder='Leave your message!'  rows="3">
-          </textarea>
+          <textarea placeholder="Leave your message!" class="form-control" v-model="newMessage.text" rows="3"></textarea>
         </div>
-        <button class="btn btn-primary" type="submit">Send</button>
+        <button type="submit" class="btn btn-primary">Send</button>
       </form>
+      <hr />
       <div class="card-columns">
-          <card class="card-outline-success" v-bind:message="firstMessage"></card>
+        <card v-bind:message="firstMessage"></card>
+        <card v-for="message in reverse(messages)" v-bind:message="message"></card>
       </div>
-      <div class="card" v-for="message in reverse(messages)">
-          <div class="card-block">
-            <h5 class="card-title">{{ message.title }}</h5>
-            <p class="card-text">{{ message.text }}</p>
-            <p class="card-text"><small class="text-muted">Added on {{ dateToString(message.timestamp) }}</small></p>
-        </div>
-      </div>
-     </div>
-   </div>
+    </div>
+  </div>
 </template>
 
 <script>
 import Firebase from 'firebase'
-import { dateToString, reverse } from './utils/utils'
+import { reverse } from './utils/utils'
 import Card from './components/Card'
 
 let config = {
@@ -49,8 +43,9 @@ export default {
   data () {
     return {
       firstMessage: {
-        title: 'Hello!',
-        text: 'This is our fixed card.',
+        isFirst: true,
+        title: 'This is le fixed card!',
+        text: 'Amazing, isn\'t it?',
         timestamp: Date.now()
       },
       newMessage: {
@@ -61,8 +56,6 @@ export default {
     }
   },
   methods: {
-    dateToString: dateToString,
-    reverse: reverse,
     addMessage (e) {
       e.preventDefault()
       if (this.newMessage.title === '') {
@@ -73,25 +66,21 @@ export default {
       this.newMessage.text = ''
       this.newMessage.title = ''
       this.newMessage.timestamp = null
-    }
+    },
+    reverse
+  },
+  firebase: {
+    messages: messagesRef.limitToLast(100)
   },
   components: {
     Card
-  },
-  name: 'app',
-  firebase: {
-    messages: messagesRef
   }
 }
 </script>
 
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+<style lang="sass">
+  .card-block
+    h5, p
+      overflow: hidden
+      text-overflow: ellipsis
 </style>
