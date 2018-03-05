@@ -9,14 +9,14 @@
 </template>
 
 <script>
-  import { dateToString } from '../utils/utils'
+import { dateToString } from '../utils/utils'
 
-  export default {
-    props: ['message'],
-    methods: {
-      dateToString
-    }
+export default {
+  props: ['message'],
+  methods: {
+    dateToString
   }
+}
 </script>
 
 <style scoped lang="sass">
