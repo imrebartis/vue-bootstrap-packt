@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta charset="UTF-8">
+    <title>Vue.js - binding data</title>
+    <style>
+    p {
+      display: inline-block;
+    }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <label for="name" v-bind:class="{green: name, red: !name}">What's your name? </label>
+      <input id="name" type="text"v-model.lazy.trim="name">
+      <ol>
+      <h1 v-show="name"><span>Hello <strong>{{name}}</strong>! </span>Here's your Zoo</h1> 
+        <img width="10%" :src="name ? gladSrc : sadSrc">
+        <li v-for="animal in animals" v-html="animalCodes[animal]"></li>
+      </ol>
+    </div>
+    <div v-html="animalCodes.cat"></div>
+  </body>
+</html>
+<script src="vue.js"></script>
+<script>
+
+  const animalCodes = {
+    dog: '&#x1f436;',
+    cat: '&#x1f638;',
+    monkey: '&#x1f435;',
+    unicorn: '&#x1f984;'
+  }
+  const animals = ['dog', 'cat', 'monkey', 'unicorn']
+  const data = {
+    animalCodes,
+    animals,
+    name,
+    sadSrc: 'images/sad.png',
+    gladSrc: 'images/glad.png'
+  }
+
+  new Vue({
+    el: '#app',
+    data
+  })
+
+</script>
