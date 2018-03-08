@@ -11,12 +11,15 @@
   </head>
   <body>
     <div id="app">
+      <hello-component></hello-component>
+      <hello-component></hello-component>
+      <hello-component></hello-component>
       <label for="name" v-bind:class="{green: name, red: !name}">What's your name? </label>
-      <input id="name" type="text"v-model.lazy.trim="name">
+      <input id="name" type="text" v-model.lazy.trim="name">
       <ol>
       <h1 v-show="name"><span>Hello <strong>{{name}}</strong>! </span>Here's your Zoo</h1> 
         <img width="10%" :src="name ? gladSrc : sadSrc">
-        <li v-for="animal in animalsForZoo" v-html="animalCodes[animal]"></li>
+        <li v-for="animal in animalsForZoo" v-html="animalsCodes[animal]"></li>
       </ol>
       <p>Select your animals:</p>
       <select @change="populateAnimalsForZoo" multiple="multiple" name="animals" id="animals">
@@ -28,7 +31,19 @@
 <script src="vue.js"></script>
 <script>
 
-  const animalCodes = {
+  const HelloComponent = {
+    template: '<div>' +
+      '<input v-model.lazy.trim="name" />' +
+      '<h1>Hello <strong>{{name}}</strong>!</h1>' +
+      '</div>',
+      data() {
+        return {
+          name: ''
+        }
+      }
+  }
+
+  const animalsCodes = {
     dog     : '&#x1f436;',
     cat     : '&#x1f638;',
     monkey  : '&#x1f435;',
@@ -44,11 +59,11 @@
     koala   : '&#x1f43c;'
 }
 
-  const animals = Object.keys(animalCodes)
+  const animals = Object.keys(animalsCodes)
 
   const animalsForZoo = []
   const data = {
-    animalCodes,
+    animalsCodes,
     animals,
     animalsForZoo,
     name,
@@ -58,6 +73,9 @@
 
   new Vue({
     el: '#app',
+    components: {
+    HelloComponent
+    },
     data,
     methods: {
     populateAnimalsForZoo(ev) {
