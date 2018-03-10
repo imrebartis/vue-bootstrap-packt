@@ -1,14 +1,31 @@
 <template>
-  <div class="row">
-    <h2>Here's your Zoo</h2>
+  <div v-if="animals.length > 0">
+    <h2><span v-if="name">{{name}}! </span>Here's your Zoo</h2>
     <ol>
-      <li v-bind:key="animal.id" v-for="animal in animals"><span class="animal" :animal="animalsCodes[animal]"></span></li>
+      <animal v-for="animal in animals" :key="animal" :animal="animalsCodes[animal]" :description="animalsDescriptions[animal]"></animal>
     </ol>
   </div>
 </template>
-
 <script>
-export default {
-  props: ['animals', 'animalsCodes', 'name']
-}
+  import Animal from './Animal'
+  export default {
+    props: ['animals'],
+    computed: {
+      animalsCodes () {
+        return this.$store.state.animalsCodes
+      },
+      animalsDescriptions () {
+        return this.$store.state.animalsDescriptions
+      },
+      name () {
+        return this.$store.state.name
+      }
+    },
+    components: {
+      Animal
+    }
+  }
 </script>
+<style>
+
+</style>

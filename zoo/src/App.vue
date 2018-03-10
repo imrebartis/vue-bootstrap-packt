@@ -5,70 +5,55 @@
       <div class="col-3"><img width="100%" :src="name ? gladSrc : sadSrc"></div>
     </div>
     <hr />
-    <div>
-      <label for="name" :class="{green: name, red: !name}">What's your name? </label>
-      <input id="name" type="text" v-model.trim="name">
-    </div>
+    <introduction></introduction>
     <hr />
     <h2><span v-if="name">{{name}}! </span>Select your animals</h2>
     <div class="row">
-    <select @change="populateAnimalsForZoo" multiple="multiple" name="animals" id="animals">
-          <option v-bind:key="animal.id" v-for="animal in animals" :value="animal">{{animal}}</option>
-        </select>
+      <select v-model="animalsForZoo" class="col-12" multiple="multiple" name="animals" id="animals">
+        <option v-for="animal in animals" :value="animal">{{animal}}</option>
+      </select>
     </div>
     <hr />
-    <zoo :animals="animalsForZoo" :animalsCodes="animalsCodes" :name="name"></zoo>
+    <zoo :animals="animalsForZoo"></zoo>
   </div>
 </template>
 
 <script>
   import Zoo from './components/Zoo'
-  var animalsForZoo = []
-  var animalsCodes = {
-    dog: '&#x1f436;',
-    cat: '&#x1f638;',
-    monkey: '&#x1f435;',
-    unicorn: '&#x1f984;',
-    tiger: '&#x1f42f;',
-    mouse: '&#x1f42d;',
-    rabbit: '&#x1f430;',
-    cow: '&#x1f42e;',
-    whale: '&#x1f433;',
-    horse: '&#x1f434;',
-    pig: '&#x1f437;',
-    frog: '&#x1f438;',
-    koala: '&#x1f43c;'
-  }
-  var animals = Object.keys(animalsCodes)
-  var data = {
-    name: 'Volgograd',
-    animals,
-    animalsCodes,
-    animalsForZoo,
-    sadSrc: '../static/images/sad.png',
-    gladSrc: '../static/images/glad.png'
-  }
+  import Introduction from './components/Introduction'
+
   export default {
     name: 'app',
     components: {
-      Zoo
+      Zoo,
+      Introduction
     },
-    methods: {
-    populateAnimalsForZoo (ev) {
-      this.animalsForZoo = []
-      const selected = document.querySelectorAll('#animals option:checked')
-      for (var i = 0; i < selected.length; i++) {
-        this.animalsForZoo.push(selected[i].value)
-     }
+    data () {
+      return {
+        animalsForZoo: []
+      }
+    },
+    computed: {
+      name () {
+        return this.$store.state.name
+      },
+      animals () {
+        return this.$store.state.animals
+      },
+      animalsCodes () {
+        return this.$store.state.animalsCodes
+      },
+      sadSrc () {
+        return this.$store.state.sadSrc
+      },
+      gladSrc () {
+        return this.$store.state.gladSrc
+      }
     }
-  },
-  data () {
-      return data
   }
-}
 </script>
 
-<style>
+<style scoped>
   #app {
     margin-top: 60px;
     width: 60%;
@@ -76,17 +61,5 @@
   }
   input {
     padding-left: 10px;
-  }
-  .animal {
-    font-size: 4em;
-  }
-  .red {
-    color: red;
-  }
-  .green {
-    color: green;
-  }
-  img {
-    width: 10%
   }
 </style>
