@@ -1,6 +1,6 @@
 <template>
   <div class="circle">
-    <svg class="timer" viewBox="0 0 200 200" preserveAspectRatio="xMinYMin meet" xmlns="http://www.w3.org/2000/svg">
+    <svg viewBox="0 0 200 200" preserveAspectRatio="xMinYMin meet" xmlns="http://www.w3.org/2000/svg">
       <circle class="bigCircle" r="100" cx="100" cy="100"></circle>
       <circle class="smallCircle" r="90" cx="100" cy="100"></circle>
       <path class="segment" :d="path"></path>
@@ -55,20 +55,6 @@
   $small-circle-color: lightgray;
   $segment-color: darkgray;
   $text-color: black;
-
-  .circle {
-    display: inline-block;
-    position: relative;
-    width: 100%;
-    padding-bottom: 100%;
-    vertical-align: middle;
-    svg {
-      display: inline-block;
-      position: absolute;
-      top: 0;
-      left: 0;
-    }
-  }
   .bigCircle {
     fill: $big-circle-color;
   }

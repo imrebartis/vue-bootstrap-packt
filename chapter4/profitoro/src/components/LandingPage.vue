@@ -1,4 +1,3 @@
-//LandingPage.vue
 <template>
   <div>
     <logo></logo>
