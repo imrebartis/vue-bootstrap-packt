@@ -65,10 +65,11 @@
         }
         this.interval = setInterval(() => {
           this.timestamp --
-          if (this.timestamp === 0) {
+         if (this.timestamp <= 0) {
+            this.$emit('finished')
             this.timestamp = this.time
           }
-        }, 1000)
+        }, 10)
       },
       pause () {
         clearInterval(this.interval)
